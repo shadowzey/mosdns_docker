@@ -163,7 +163,7 @@ plugins:
       # 保险起见，只匹配了 PTR 请求
       qtype: [12]
       domain:
-        - ./local-ptr.raw.txt
+        - /dat/geosite_private.txt
   # pre_sequence
   - tag: pre_sequence
     type: sequence
