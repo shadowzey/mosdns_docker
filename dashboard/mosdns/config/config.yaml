@@ -28,6 +28,11 @@ plugins:
       - exec: query_summary reject_adlist
       - exec: $reject_3
 
+    - tag: reject_private
+    type: sequence
+    args:
+      - exec: _block_with_nxdomain
+
   ################ 序列 #################
   - tag: dns_nocn
     type: "fallback"
@@ -145,25 +150,7 @@ plugins:
     args:
       - matches: has_resp
         exec: goto main_handle
-  # 处理ptr      
-  - tag: ptr_process
-    type: sequence
-    args:
-      exec:
-        # pre-process
-        - if:
-          - match_local_ptr
-          exec:
-            # 不确定 nxdomain 响应是否合适
-            - _block_with_nxdomain
-  - tag: match_local_ptr
-    type: query_matcher
-    args:
-      logical_and: true
-      # 保险起见，只匹配了 PTR 请求
-      qtype: [12]
-      domain:
-        - /dat/geosite_private.txt
+        
   # pre_sequence
   - tag: pre_sequence
     type: sequence
@@ -178,7 +165,8 @@ plugins:
         exec: $query_other
       - matches: ptr_ip $geoip_private # private ip
         exec: $query_lan
-      - exec: $ptr_process
+      - matches: qname $geosite_private
+        exec: $reject_private
       - exec: jump has_resp_pre
 
   # main_sequence
