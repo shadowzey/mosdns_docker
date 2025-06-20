@@ -12,7 +12,8 @@ RUN set -xe \
   && v2dat unpack geosite -o dat -f "cn" geosite.dat \
   && v2dat unpack geosite -o dat -f "gfw" geosite.dat \
   && v2dat unpack geosite -o dat -f "category-ads-all" geosite.dat \
-  && v2dat unpack geosite -o dat -f "geolocation-!cn" geosite.dat
+  && v2dat unpack geosite -o dat -f "geolocation-!cn" geosite.dat \
+  && v2dat unpack geosite -o dat -f "private" geosite.dat
 
 
 FROM docker.1ms.run/irinesistiana/mosdns:latest
