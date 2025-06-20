@@ -31,6 +31,11 @@ plugins:
     args:
       files:
         - "/dat/geosite_category-ads-all.txt"
+  - tag: geosite_private # private
+    type: domain_set
+    args:
+      files:
+        - "/dat/geosite_private.txt"
 
   ################# 可执行插件 ################
 
