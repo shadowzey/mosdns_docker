@@ -1,9 +1,9 @@
-FROM golang:1.19.2-alpine as unpack
+FROM docker.1ms.run/golang:1.19.2-alpine as unpack
 WORKDIR /
 
 RUN set -xe \
   && apk add --no-cache curl \
-  && go install github.com/urlesistiana/v2dat@latest \
+  && http_proxy=http://10.10.10.253:8443 go install github.com/urlesistiana/v2dat@latest \
   && curl -LJO https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat \
   && curl -LJO https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat \
   && mkdir dat \
@@ -15,7 +15,7 @@ RUN set -xe \
   && v2dat unpack geosite -o dat -f "geolocation-!cn" geosite.dat
 
 
-FROM irinesistiana/mosdns:latest
+FROM docker.1ms.run/irinesistiana/mosdns:latest
 LABEL maintainer="None"
 
 RUN set -xe \

@@ -14,7 +14,7 @@ services:
     container_name: mosdns
     build:
       context: ./mosdns/docker
-    image: mosdns_unofficial:latest
+    image: docker.1ms.run/mosdns_unofficial:latest
     volumes:
       - ./mosdns/config:/etc/mosdns
       - logs:/var/log
@@ -27,7 +27,7 @@ services:
 
   vector:
     container_name: vector
-    image: timberio/vector:latest-alpine
+    image: docker.1ms.run/timberio/vector:latest-alpine
     volumes:
       - ./vector/config.yml:/etc/vector/vector.yaml
       - logs:/var/log
@@ -38,7 +38,7 @@ services:
 
   prometheus:
     container_name: prometheus
-    image: prom/prometheus:latest
+    image: docker.1ms.run/prom/prometheus:latest
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus 
@@ -49,7 +49,7 @@ services:
       - loki
 
   loki:
-    image: grafana/loki:2.9.2
+    image: docker.1ms.run/grafana/loki:2.9.2
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
     # ports:
@@ -93,8 +93,8 @@ services:
           editable: false
         EOF
         /run.sh
-    image: grafana/grafana:latest
+    image: docker.1ms.run/grafana/grafana:latest
     ports:
-      - "3000:3000"
+      - "3011:3000"
     networks:
       - loki
