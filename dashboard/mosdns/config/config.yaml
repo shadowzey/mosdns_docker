@@ -31,7 +31,7 @@ plugins:
   - tag: reject_private
     type: sequence
     args:
-      - exec: _block_with_nxdomain
+      - exec: $reject_3
 
   ################ 序列 #################
   - tag: dns_nocn
