@@ -145,7 +145,25 @@ plugins:
     args:
       - matches: has_resp
         exec: goto main_handle
-
+  # 处理ptr      
+  - tag: ptr_process
+    type: sequence
+    args:
+      exec:
+        # pre-process
+        - if:
+          - match_local_ptr
+          exec:
+            # 不确定 nxdomain 响应是否合适
+            - _block_with_nxdomain
+  - tag: match_local_ptr
+    type: query_matcher
+    args:
+      logical_and: true
+      # 保险起见，只匹配了 PTR 请求
+      qtype: [12]
+      domain:
+        - ./local-ptr.raw.txt
   # pre_sequence
   - tag: pre_sequence
     type: sequence
@@ -160,6 +178,7 @@ plugins:
         exec: $query_other
       - matches: ptr_ip $geoip_private # private ip
         exec: $query_lan
+      - exec: $ptr_process
       - exec: jump has_resp_pre
 
   # main_sequence
